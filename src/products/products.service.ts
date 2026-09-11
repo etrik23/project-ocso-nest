@@ -55,6 +55,13 @@ export class ProductsService {
 
   update(id: string, updateProductDto: UpdateProductDto) {
     let product = this.findOne(id)
+    this.products = this.products.map((product) => {
+    if (product.productId === id) return {
+      ...product,
+      ...updateProductDto
+    }
+    return product;
+  })
     return {
       ...product,
       ...updateProductDto,
