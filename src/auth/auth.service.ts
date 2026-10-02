@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity.js';
@@ -6,11 +6,14 @@ import { CreateUserDto } from './dto/create-user.dto.js';
 import * as bcrypt from "bcrypt"
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './dto/login-user.dto.js';
+import { UpdateUserDto } from './dto/update-user.dto.js';
 
 @Injectable()
 export class AuthService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>,
   private jwtService: JwtService){}
+
+
   registerUser(createUserDto: CreateUserDto){
     createUserDto.userPassword = bcrypt.hashSync(createUserDto.userPassword, 5)
     return this.userRepository.save(createUserDto)
@@ -31,6 +34,18 @@ export class AuthService {
    }
    const token = this.jwtService.sign(payload);
    return token
+  }
+
+  async updateUser(userEmail: string, updateUserDto: UpdateUserDto) {
+    const newUserData = await this.userRepository.preload({
+      userEmail,
+      ...updateUserDto
+    })
+    if (!newUserData) {
+    throw new NotFoundException(`User with email ${userEmail} not found`);
+  }
+    await this.userRepository.save(newUserData)
+    return newUserData
   }
 
 }
