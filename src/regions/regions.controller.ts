@@ -4,7 +4,9 @@ import { CreateRegionDto } from './dto/create-region.dto.js';
 import { UpdateRegionDto } from './dto/update-region.dto.js';
 import { Auth } from '../auth/decorators/auth.decorator.js';
 import { ROLES } from '../auth/constants/roles.constants.js';
+import { ApiAuth } from '../auth/decorators/api.decorator.js';
 
+@ApiAuth()
 @Controller('regions')
 export class RegionsController {
   constructor(private readonly regionsService: RegionsService) {}

@@ -11,11 +11,13 @@ export class Location {
     @Column('text')
     locationName: string;
     @Column('text')
-    locationAdress: string;
+    locationAddress: string;
     @Column('simple-array')
     locationLatLng: number[];
 
-    @OneToOne(() => Manager, (manager) => manager.location)
+    @OneToOne(() => Manager, (manager) => manager.location, {
+        eager: true,
+    })
     @JoinColumn({
         name: "managerId"
     })

@@ -19,5 +19,6 @@ import { EXPIRES_IN, JWT_KEY } from './constants/jwt.constants.js';
   ],
   controllers: [AuthController],
   providers: [AuthService],
+  exports: [JwtModule],
 })
 export class AuthModule {}
