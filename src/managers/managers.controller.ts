@@ -6,6 +6,8 @@ import { Auth } from '../auth/decorators/auth.decorator.js';
 import { ROLES } from '../auth/constants/roles.constants.js';
 import { ApiAuth } from '../auth/decorators/api.decorator.js';
 import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse } from '@nestjs/swagger';
+import { Manager } from './entities/manager.entity.js';
 
 @ApiAuth()
 @ApiTags('Managers')
@@ -14,6 +16,16 @@ export class ManagersController {
   constructor(private readonly managersService: ManagersService) {}
 
   @Auth()
+  @ApiResponse({
+      status: 201,
+      example: {
+        managerFullName: "Vladimir Medrano",
+        managerSalary: 3500.50,
+        managerEmail: "vladimir@gmail.com",
+        managerPhoneNumber: "4429871762"
+      } as Manager
+    })
+
   @Post()
   create(@Body() createManagerDto: CreateManagerDto) {
     return this.managersService.create(createManagerDto);
