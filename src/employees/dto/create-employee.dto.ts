@@ -3,22 +3,6 @@ import { Employee } from "../entities/employee.entity.js";
 import { Location } from "../../locations/entities/location.entity.js";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
-
-export class LocationEmployeeDto extends Location {
-    @ApiProperty()
-    declare locationId: number;
-    @ApiPropertyOptional()
-    declare locationName: string;
-
-    @ApiPropertyOptional()
-    declare locationLatLng: number[];
-
-    @ApiPropertyOptional()
-    declare locationAddress: string;
-}
-
-
-
 export class CreateEmployeeDto{
     @ApiProperty()
     @IsString()
@@ -43,5 +27,5 @@ export class CreateEmployeeDto{
     @ApiPropertyOptional()
     @IsOptional()
     @IsObject()
-    location: LocationEmployeeDto;
+    location: Location;
 }
