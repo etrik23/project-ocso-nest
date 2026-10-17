@@ -9,7 +9,10 @@ import { ROLES } from '../auth/constants/roles.constants.js';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Employee } from './entities/employee.entity.js';
 import { ApiAuth } from '../auth/decorators/api.decorator.js';
-
+import { ApiBearerAuth
+  
+ } from '@nestjs/swagger';
+@ApiBearerAuth()
 @ApiAuth()
 @ApiTags('Employees')
 @Controller('employees')

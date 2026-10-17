@@ -15,7 +15,7 @@ import { Location } from './entities/location.entity.js';
 export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 
-  @Auth()
+  //@Auth()
   @ApiResponse({
       status: 201,
       example: {
@@ -29,7 +29,7 @@ export class LocationsController {
     return this.locationsService.create(createLocationDto);
   }
 
-  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
+  //@Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Get()
   findAll() {
     return this.locationsService.findAll();
