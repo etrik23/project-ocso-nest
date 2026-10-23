@@ -12,5 +12,6 @@ import { AuthModule } from '../auth/auth.module.js';
   ],
   controllers: [ManagersController],
   providers: [ManagersService],
+  exports: [ManagersModule]
 })
 export class ManagersModule {}
