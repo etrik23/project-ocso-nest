@@ -9,6 +9,7 @@ import { LocationsModule } from './locations/locations.module.js';
 import { RegionsModule } from './regions/regions.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { JwtModule } from '@nestjs/jwt';
+import { AwsModule } from './aws/aws.module.js';
 
 
 @Module({
@@ -25,7 +26,7 @@ import { JwtModule } from '@nestjs/jwt';
     autoLoadEntities: true,
     synchronize: true,
   }),
-    EmployeesModule, ProductsModule, ProvidersModule, ManagersModule, LocationsModule, RegionsModule, AuthModule],
+    EmployeesModule, ProductsModule, ProvidersModule, ManagersModule, LocationsModule, RegionsModule, AuthModule, AwsModule],
   controllers: [],
   providers: [],
 })

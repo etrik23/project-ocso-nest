@@ -33,11 +33,13 @@ export class Location {
     @ApiProperty({default: "f0f501d4-60c4-4760-a559-96fb5de9e0de"})
     @OneToOne(() => Manager, (manager) => manager.location, {
         eager: true,
+        onDelete: 'SET NULL', // <-- Agregado aquí
+        nullable: true,       // <-- Importante para permitir nulos
     })
     @JoinColumn({
         name: "managerId"
     })
-    manager: Manager | string;
+    manager: Manager | string | null; // (Opcional pero recomendado: ajustar el tipo para admitir null)
     
     @ManyToOne(() => Region, (region) => region.locations)
     @JoinColumn({
