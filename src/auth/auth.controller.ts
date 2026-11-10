@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Res, BadRequestException } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
@@ -13,15 +13,30 @@ import { Cookies } from './decorators/cookies.decorator.js';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
-  @Post("signup")
-  singup(@Body() createUserDto: CreateUserDto){
-    return this.authService.registerUser(createUserDto)
+  @Post("register/employee/[id]")
+  registerEmployee(@Body() createUserDto: CreateUserDto, @Param("id") id: string) {
+    if (createUserDto.userRoles.includes("Admin") || createUserDto.userRoles.includes("Manager")) throw new BadRequestException("Rol invalido")
+    return this.authService.registerEmployee(id, createUserDto)
   }
 
+
+
+  @Post("register/manager")
+  registerManager(@Body() createUserDto: CreateUserDto, @Param("id") id: string) {
+    if (createUserDto.userRoles.includes("Admin") || createUserDto.userRoles.includes("Employee")) throw new BadRequestException("Rol invalido")
+    return this.authService.registerManager(id, createUserDto)
+  }
+
+
+
+
+
+
+
   @Post("login")
-  async login(@Body() loginUserDto:LoginUserDto, @Res({passthrough: true}) response: Response, @Cookies() cookies: any){
+  async login(@Body() loginUserDto: LoginUserDto, @Res({ passthrough: true }) response: Response, @Cookies() cookies: any) {
     const token = await this.authService.loginUser(loginUserDto)
     response.cookie(TOKEN_NAME, token, {
       httpOnly: false,
@@ -31,9 +46,9 @@ export class AuthController {
     });
     return;
   }
-  
+
   @Patch("/:email")
-  updateUser(@Param('email') userEmail: string, @Body() updateUserDto:UpdateUserDto) {
+  updateUser(@Param('email') userEmail: string, @Body() updateUserDto: UpdateUserDto) {
     return this.authService.updateUser(userEmail, updateUserDto)
   }
 
