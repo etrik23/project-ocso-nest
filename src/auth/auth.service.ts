@@ -58,9 +58,8 @@ export class AuthService {
     }
 
     manager.user = user;
-    return this.employeeRepository.save(manager)
+    return this.managerRepository.save(manager)
   }
-
 
 
 
@@ -89,14 +88,19 @@ export class AuthService {
     return token
   }
 
-  async updateUser(userEmail: string, updateUserDto: UpdateUserDto) {
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.userPassword) {
+    updateUserDto.userPassword = bcrypt.hashSync(updateUserDto.userPassword, 5);
+  }
     const newUserData = await this.userRepository.preload({
-      userEmail,
+      userId: id,
       ...updateUserDto
     })
+
     if (!newUserData) {
-      throw new NotFoundException(`User with email ${userEmail} not found`);
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
+
     await this.userRepository.save(newUserData)
     return newUserData
   }

@@ -10,7 +10,7 @@ import { Manager } from '../managers/entities/manager.entity.js';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Employee, Manager]),
     JwtModule.register({
       secret: JWT_KEY,
       signOptions: {

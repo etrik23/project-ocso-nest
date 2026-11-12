@@ -2,7 +2,7 @@ import { IsEmail, IsNumber, IsOptional, IsString, MaxLength } from "class-valida
 import { Manager } from "../entities/manager.entity.js";
 import { Location } from "../../locations/entities/location.entity.js";
 
-export class CreateManagerDto extends Manager {
+export class CreateManagerDto {
     @IsString()
     @MaxLength(80)
     declare managerFullName: string;
